@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">ArtSpace</string>
+    <string name="los_girasoles_nombre">Los girasoles</string>
+    <string name="los_girasoles_autor">Vicent Van Gogh</string>
+    <string name="los_girasoles_anyo">1888</string>
+    <string name="el_grito_nombre">El grito</string>
+    <string name="el_grito_autor">Edvard Munch</string>
+    <string name="el_grito_anyo">1893</string>
+    <string name="paseo_mar_nombre">Paseo por el mar</string>
+    <string name="paseo_mar_autor">Joaquín Sorolla</string>
+    <string name="paseo_mar_anyo">1909</string>
+    <string name="etiqueta_autor">Autor: %s</string>
+    <string name="etiqueta_anyo">Año: %s</string>
+    <string name="boton_anterior">Anterior</string>
+    <string name="boton_siguiente">Siguiente</string>
+</resources>
