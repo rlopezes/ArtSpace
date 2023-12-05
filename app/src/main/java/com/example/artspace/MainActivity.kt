@@ -15,11 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,6 +33,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,25 +56,36 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArtSpaceApp(modifier: Modifier = Modifier) {
 
     //Variable con el número de cuadro
     var numCuadro by remember { mutableStateOf(1) }
+    var textoCuadro by remember { mutableStateOf("1") }
+
     //Valor con el número total de cuadros
-    val totalCuadros = 3
+    val total_cuadros = 3
+
+    //Asignamos el valor de textoCuadro a la variable numCuadro
+    val valorTextoCuadro = textoCuadro.toIntOrNull()
+    if ( valorTextoCuadro != null &&
+        valorTextoCuadro >= 1 &&
+        valorTextoCuadro <= total_cuadros) {
+            numCuadro = valorTextoCuadro
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
         val modifierCuadro = Modifier
-            .background(Color.LightGray)
             .fillMaxWidth()
             .padding(20.dp)
+            .background(Color.LightGray)
 
         when (numCuadro) {
-            0 -> {
+            1 -> {
                 DetallesCuadro(
                     imagen = R.drawable.girasoles_van_gogh,
                     stringResource(R.string.los_girasoles_nombre),
@@ -80,7 +94,7 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
                     modifier = modifierCuadro
                 )
             }
-            1 -> {
+            2 -> {
                 DetallesCuadro(
                     imagen = R.drawable.el_grito_edvard_munch,
                     stringResource(R.string.el_grito_nombre),
@@ -89,7 +103,7 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
                     modifier = modifierCuadro
                 )
             }
-            2 -> {
+            3 -> {
                 DetallesCuadro(
                     imagen = R.drawable.paseo_mar_sorolla,
                     stringResource(R.string.paseo_mar_nombre),
@@ -102,10 +116,26 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
 
         Spacer(modifier = Modifier.height(50.dp))
 
+        Row() {
+            TextField(
+                value = textoCuadro,
+                onValueChange = { textoCuadro = it},
+                singleLine = true,
+                label = { Text(stringResource(R.string.num_cuadro)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                modifier = modifier
+            )
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         Row(
         ) {
             Button(
-                onClick = { numCuadro = (numCuadro-1)%totalCuadros }
+                onClick = {
+                    numCuadro = if (numCuadro>1) numCuadro-1 else total_cuadros
+                    textoCuadro = numCuadro.toString()
+                }
             ) {
                 Text(
                     text = stringResource(R.string.boton_anterior),
@@ -114,7 +144,10 @@ fun ArtSpaceApp(modifier: Modifier = Modifier) {
             }
             Spacer(modifier = Modifier.width(50.dp))
             Button(
-                onClick = { numCuadro = (numCuadro+1)%totalCuadros }
+                onClick = {
+                    numCuadro = if (numCuadro<total_cuadros) numCuadro+1 else 1
+                    textoCuadro = numCuadro.toString()
+                }
             ) {
                 Text(
                     text = stringResource(R.string.boton_siguiente),
